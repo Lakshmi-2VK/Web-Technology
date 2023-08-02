@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Records</title>
+  <style>
+    table {
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 5px;
+    }
+  </style>
+</head>
+<body>
+  <table id="studentTable">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Roll No.</th>
+        <th>Admission Year & Semester</th>
+      </tr>
+    </thead>
+    <tbody id="studentData"></tbody>
+  </table>
+
+  <script>
+    // AJAX request to load the XML file
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        displayStudentRecords(this);
+      }
+    };
+    xhttp.open("GET", "students.xml", true);
+    xhttp.send();
+
+    // Function to display student records
+    function displayStudentRecords(xml) {
+      var xmlDoc = xml.responseXML;
+      var students = xmlDoc.getElementsByTagName("student");
+      var tableBody = document.getElementById("studentData");
+
+      for (var i = 0; i < students.length; i++) {
+        var name = students[i].getElementsByTagName("name")[0].textContent;
+        var rollNo = students[i].getElementsByTagName("rollNo")[0].textContent;
+        var semester = students[i].getElementsByTagName("semester")[0].textContent;
+        var admissionYear = students[i].getElementsByTagName("admissionYear")[0].textContent;
+
+        var row = document.createElement("tr");
+        var nameCell = document.createElement("td");
+        var rollNoCell = document.createElement("td");
+        var admissionCell = document.createElement("td");
+
+        nameCell.innerHTML = name;
+        rollNoCell.innerHTML = rollNo;
+
+        // Combine admission year and semester
+        admissionCell.innerHTML = admissionYear + " " + semester;
+
+        row.appendChild(nameCell);
+        row.appendChild(rollNoCell);
+        row.appendChild(admissionCell);
+
+        tableBody.appendChild(row);
+      }
+    }
+  </script>
+</body>
+</html>

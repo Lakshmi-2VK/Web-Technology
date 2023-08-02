@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Name Suggestions</title>
+  <style>
+    #nameInput {
+      margin-bottom: 10px;
+    }
+  </style>
+  <script>
+    window.addEventListener('DOMContentLoaded', function() {
+      var suggestionList = ["James", "JaJolan", "Jenny", "Elle", "Rob", "Sophia", "Michele", "OliOli", "Windolia"];
+      var nameInput = document.getElementById("nameInput");
+      var suggestionsContainer = document.getElementById("suggestionsContainer");
+
+      nameInput.addEventListener('input', function() {
+        var letter = this.value.trim().toLowerCase();
+        var matchingNames = [];
+
+        if (letter.length > 0) {
+          matchingNames = suggestionList.filter(function(name) {
+            return name.toLowerCase().includes(letter);
+          });
+        }
+
+        displaySuggestions(matchingNames);
+      });
+
+      function displaySuggestions(names) {
+        suggestionsContainer.innerHTML = "";
+
+        if (names.length > 0) {
+          names.forEach(function(name) {
+            var suggestionItem = document.createElement("div");
+            suggestionItem.textContent = name;
+            suggestionsContainer.appendChild(suggestionItem);
+          });
+        } else {
+          var noSuggestionsMessage = document.createElement("div");
+          noSuggestionsMessage.textContent = "No suggestions found.";
+          suggestionsContainer.appendChild(noSuggestionsMessage);
+        }
+      }
+    });
+  </script>
+</head>
+<body>
+  <h2>Name Suggestions</h2>
+  <label for="nameInput">Enter a letter:</label>
+  <input type="text" id="nameInput" name="nameInput" />
+  <div id="suggestionsContainer"></div>
+</body>
+</html>

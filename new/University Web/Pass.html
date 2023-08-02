@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Password Checker</title>
+  <style>
+    #password {
+      margin-bottom: 10px;
+    }
+  </style>
+  <script>
+    window.addEventListener('DOMContentLoaded', function() {
+      var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+      var submitButton = document.getElementById("submitButton");
+      var passwordInput = document.getElementById("password");
+
+      passwordInput.addEventListener('keyup', function() {
+        checkPassword();
+      });
+
+      checkboxes.forEach(function(checkbox) {
+        checkbox.addEventListener('change', function() {
+          checkSubmitButton();
+        });
+      });
+
+      function checkPassword() {
+        var password = passwordInput.value;
+
+        // Check for small letter
+        if (/[a-z]/.test(password)) {
+          document.getElementById("smallLetterCheckbox").checked = true;
+        } else {
+          document.getElementById("smallLetterCheckbox").checked = false;
+        }
+
+        // Check for capital letter
+        if (/[A-Z]/.test(password)) {
+          document.getElementById("capitalLetterCheckbox").checked = true;
+        } else {
+          document.getElementById("capitalLetterCheckbox").checked = false;
+        }
+
+        // Check for number
+        if (/[0-9]/.test(password)) {
+          document.getElementById("numberCheckbox").checked = true;
+        } else {
+          document.getElementById("numberCheckbox").checked = false;
+        }
+
+        // Check for special character
+        if (/[!@#$%^&*]/.test(password)) {
+          document.getElementById("specialCharCheckbox").checked = true;
+        } else {
+          document.getElementById("specialCharCheckbox").checked = false;
+        }
+
+        // Check for minimum length
+        if (password.length >= 8) {
+          document.getElementById("minLengthCheckbox").checked = true;
+        } else {
+          document.getElementById("minLengthCheckbox").checked = false;
+        }
+
+        checkSubmitButton();
+      }
+
+      function checkSubmitButton() {
+        var allChecked = true;
+
+        checkboxes.forEach(function(checkbox) {
+          if (!checkbox.checked) {
+            allChecked = false;
+            return;
+          }
+        });
+
+        submitButton.disabled = !allChecked;
+      }
+    });
+  </script>
+</head>
+<body>
+  <h2>Password Checker</h2>
+  <form>
+    <label><input type="checkbox" id="smallLetterCheckbox"> Small Letter (a-z)</label><br>
+    <label><input type="checkbox" id="capitalLetterCheckbox"> Capital Letter (A-Z)</label><br>
+    <label><input type="checkbox" id="numberCheckbox"> Number (0-9)</label><br>
+    <label><input type="checkbox" id="specialCharCheckbox"> Special Character (!@#$%^&*)</label><br>
+    <label><input type="checkbox" id="minLengthCheckbox"> Minimum 8 Characters</label><br>
+    <br>
+    <label for="password">Password:</label>
+    <input type="text" id="password" name="password" />
+    <br>
+    <button type="submit" id="submitButton" disabled>Submit</button>
+  </form>
+</body>
+</html>
